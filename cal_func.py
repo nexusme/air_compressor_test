@@ -140,9 +140,9 @@ def originEC_to_dataframe(machine1, new_machine):
     # print(ee_lists)
     # print(new_machine)
     for i in range(len(ee_lists)):
-        saving = round(ee_lists[i]['energy_con'] - new_machine[i]['energy_con'], 4)
-        saving_portion = round(saving / ee_lists[i]['energy_con'] * 100, 2)
-        saving_per_hour = round(saving * act_air_list[i], 4)
+        saving = round(float(ee_lists[i]['energy_con']) - float(new_machine[i]['energy_con']), 4)
+        saving_portion = round(saving / float(ee_lists[i]['energy_con']) * 100, 2)
+        saving_per_hour = round(saving * float(act_air_list[i]), 4)
         saving_per_year = round(saving_per_hour * year_running_time)
         # print(act_air_list[i],saving_per_hour,saving_per_year)
 

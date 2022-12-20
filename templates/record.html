@@ -7,16 +7,26 @@
 <body>
 <form action="{{ url_for('result') }}" method="post">
     <a1>输入原有空压机数据</a1>
-    <p>编号：       <input type="text" name="no"></p>
-    <p>型号：   <input type="text" name="model"></p>
-    <p>运行时间：<input type="text" name="run_time"></p>
-    <p>加载时间：<input type="text" name="load_time"></p>
-    <p>额定功率：<input type="text" name="ori_power"></p>
-    <p>用气量： <input type="text" name="air"></p>
-    <p>品牌：   <input type="text" name="brand"></p>
-    <p>是否变频（1/0）：<input type="text" name="isFC"></p>
-    <p>额定压力：<input type="text" name="origin_pre"></p>
-    <p>实际压力：<input type="text" name="actucal_pre"></p>
+    <p>原有机型</p>
+    <p>原有机型编号：   <input type="text" name="no"></p>
+    <p>原有机型型号：   <input type="text" name="model"></p>
+    <p>原有机型运行时间：<input type="text" name="run_time"></p>
+    <p>原有机型加载时间：<input type="text" name="load_time"></p>
+    <p>原有机型额定功率：<input type="text" name="ori_power"></p>
+    <p>原有机型用气量： <input type="text" name="air"></p>
+    <p>原有机型品牌：   <input type="text" name="brand"></p>
+    <p>原有机型是否变频（1/0）：<input type="text" name="isFC"></p>
+    <p>原有机型额定压力：<input type="text" name="origin_pre"></p>
+    <p>原有机型实际压力：<input type="text" name="actucal_pre"></p>
+    <a1>输入更新空压机数据</a1>
+    <p>更新机型</p>
+    <p>更新机型品牌：   <input type="text" name="brand_n"></p>
+    <p>更新机型型号：   <input type="text" name="model_n"></p>
+    <p>更新机型功率：   <input type="text" name="ori_power_n"></p>
+    <p>更新机型气量：   <input type="text" name="air_n"></p>
+    <p>更新机型驱动：   <input type="text" name="isFC_n"></p>
+    <p>更新机型比功率：   <input type="text" name="energy_con_n"></p>
+    <p>更新机型单位能耗：   <input type="text" name="energy_con_min_n"></p>
     <p><input type="submit" value="新增"></p>
 </form>
 
