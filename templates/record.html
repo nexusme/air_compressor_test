@@ -14,10 +14,16 @@
     <p>额定功率：<input type="text" name="ori_power"></p>
     <p>用气量： <input type="text" name="air"></p>
     <p>品牌：   <input type="text" name="brand"></p>
-    <p>是否变频：<input type="text" name="isFC"></p>
+    <p>是否变频（1/0）：<input type="text" name="isFC"></p>
     <p>额定压力：<input type="text" name="origin_pre"></p>
     <p>实际压力：<input type="text" name="actucal_pre"></p>
-
+    <p><input type="submit" value="新增"></p>
 </form>
+
+<form action="{{ url_for('generate') }}" method="post">
+    <input type="submit" value='生成'></input>
+</form>
+
+
 </body>
 </html>

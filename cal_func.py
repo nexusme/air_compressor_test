@@ -11,13 +11,19 @@ year_running_time = 5040
 
 
 def calculate_process(air_dict):
-    return calculate_it_noneFC(air_dict) if not air_dict['isFC'] else calculate_it_FC(air_dict)
+    if not air_dict['isFC']:
+        a, b, c = calculate_it_noneFC(air_dict)
+    else:
+        a, b, c = calculate_it_noneFC(air_dict)
+
+    return a, b, c
 
 
 def calculate_it_noneFC(air_dict):
-    no, model, run_time, load_time = air_dict['no'], air_dict['model'], air_dict['run_time'], air_dict['load_time']
-    ori_power, air = air_dict['ori_power'], air_dict['air']
-    brand, ori_pre, actual_pre = air_dict['brand'], air_dict['origin_pre'], air_dict['actucal_pre']
+    no, model, run_time, load_time = air_dict['no'], air_dict['model'], int(air_dict['run_time']), int(
+        air_dict['load_time'])
+    ori_power, air = int(air_dict['ori_power']), float(air_dict['air'])
+    brand, ori_pre, actual_pre = air_dict['brand'], float(air_dict['origin_pre']), float(air_dict['actucal_pre'])
     ser_p = service_para_dict[brand]
 
     # 空载浪费
@@ -49,9 +55,10 @@ def calculate_it_noneFC(air_dict):
 
 
 def calculate_it_FC(air_dict):
-    no, model, run_time, load_time = air_dict['no'], air_dict['model'], air_dict['run_time'], air_dict['load_time']
-    ori_power, air = air_dict['ori_power'], air_dict['air']
-    brand, ori_pre, actual_pre = air_dict['brand'], air_dict['origin_pre'], air_dict['actucal_pre']
+    no, model, run_time, load_time = air_dict['no'], air_dict['model'], int(air_dict['run_time']), int(
+        air_dict['load_time'])
+    ori_power, air = int(air_dict['ori_power']), float(air_dict['air'])
+    brand, ori_pre, actual_pre = air_dict['brand'], float(air_dict['origin_pre']), float(air_dict['actucal_pre'])
     ser_p = service_para_dict[brand]
     # 空载浪费
     d_val = round(ori_pre - actual_pre, 3)
