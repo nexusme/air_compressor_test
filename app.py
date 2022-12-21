@@ -82,5 +82,34 @@ def generate():
     return render_template("generate.html", result='')
 
 
+@app.route('/view', methods=["POST", "GET"])
+def view():
+    if request.method == "POST":
+        all_list = []
+        new_eq = []
+        with open('test.csv') as f:
+            f_csv = csv.reader(f)
+            i = 0
+            dict_save_all = {}
+            for row in f_csv:
+                i += 1
+                dict_save_all[row[0]] = row[1]
+                if i is 9:
+                    all_list.append(dict_save_all)
+                    i = 0
+        with open('test1.csv') as f1:
+            f_csv = csv.reader(f1)
+            i = 0
+            dict_save_all = {}
+            for row in f_csv:
+                i += 1
+                dict_save_all[row[0]] = row[1]
+                if i is 7:
+                    new_eq.append(dict_save_all)
+                    i = 0
+
+        return render_template("view.html", result=all_list+new_eq)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
