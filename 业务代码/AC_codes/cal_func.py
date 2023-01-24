@@ -5,10 +5,9 @@ pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
-service_para_dict = {"阿特拉斯": 1.15, "凯撒": 1.15, "英格索兰": 1.2, "复盛": 1.3}
-por_dict = {"阿特拉斯": 0.98, "凯撒": 0.98, "英格索兰": 0.98, "复盛": 0.9}
-year_running_time = 5040
-actucal_pre = 0.75
+service_para_dict = {"阿特拉斯": 1.15, "凯撒": 1.15, "英格索兰": 1.2, "复盛": 1.3, "博世格": 1.15}
+por_dict = {"阿特拉斯": 0.98, "凯撒": 0.98, "英格索兰": 0.98, "复盛": 0.9, "博世格": 0.9}
+year_running_time = 6420
 
 
 def complete_data(air_dict):
