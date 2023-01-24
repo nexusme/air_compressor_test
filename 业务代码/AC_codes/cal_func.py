@@ -8,23 +8,29 @@ pd.set_option('display.width', 1000)
 service_para_dict = {"阿特拉斯": 1.15, "凯撒": 1.15, "英格索兰": 1.2, "复盛": 1.3}
 por_dict = {"阿特拉斯": 0.98, "凯撒": 0.98, "英格索兰": 0.98, "复盛": 0.9}
 year_running_time = 5040
+actucal_pre = 0.75
+
+
+def complete_data(air_dict):
+    for row in air_dict:
+        if row['brand'] in service_para_dict:
+            row['ser_p'] = service_para_dict[row['brand']]
+            row['por'] = por_dict[row['brand']]
+        else:
+            row['ser_p'] = 1.3
+            row['por'] = 0.9
+    return air_dict
 
 
 def calculate_process(air_dict):
-    if not air_dict['isFC']:
-        a, b, c = calculate_it_noneFC(air_dict)
-    else:
-        a, b, c = calculate_it_noneFC(air_dict)
-
-    return a, b, c
+    return calculate_it_noneFC(air_dict) if not air_dict['isFC'] else calculate_it_FC(air_dict)
 
 
 def calculate_it_noneFC(air_dict):
-    no, model, run_time, load_time = air_dict['no'], air_dict['model'], int(air_dict['run_time']), int(
-        air_dict['load_time'])
-    ori_power, air = int(air_dict['ori_power']), float(air_dict['air'])
-    brand, ori_pre, actual_pre = air_dict['brand'], float(air_dict['origin_pre']), float(air_dict['actucal_pre'])
-    ser_p = service_para_dict[brand]
+    no, model, run_time, load_time = air_dict['no'], air_dict['model'], air_dict['run_time'], air_dict['load_time']
+    ori_power, air = air_dict['ori_power'], air_dict['air']
+    brand, ori_pre, actual_pre = air_dict['brand'], air_dict['origin_pre'], air_dict['actucal_pre']
+    ser_p = air_dict['ser_p']
 
     # 空载浪费
     d_val = round(ori_pre - actual_pre, 3)
@@ -55,11 +61,12 @@ def calculate_it_noneFC(air_dict):
 
 
 def calculate_it_FC(air_dict):
-    no, model, run_time, load_time = air_dict['no'], air_dict['model'], int(air_dict['run_time']), int(
-        air_dict['load_time'])
-    ori_power, air = int(air_dict['ori_power']), float(air_dict['air'])
-    brand, ori_pre, actual_pre = air_dict['brand'], float(air_dict['origin_pre']), float(air_dict['actucal_pre'])
-    ser_p = service_para_dict[brand]
+    no, model, run_time, load_time = air_dict['no'], air_dict['model'], air_dict['run_time'], air_dict['load_time']
+    ori_power, air = air_dict['ori_power'], air_dict['air']
+    brand, ori_pre, actual_pre = air_dict['brand'], air_dict['origin_pre'], air_dict['actucal_pre']
+    ser_p = air_dict['ser_p']
+    por = air_dict['por']
+
     # 空载浪费
     d_val = round(ori_pre - actual_pre, 3)
     empty_waste = 0
@@ -72,7 +79,6 @@ def calculate_it_FC(air_dict):
     # 总计浪费
     total_waste = round(empty_waste + d_val_waste, 4)
     # print(total_waste)
-    por = por_dict[brand]
     actual_energyE = round((float(ori_power) * ser_p * d_cal_wast_por) / (air * por), 2)
     str_actual_energyE = '(' + str(ori_power) + '*' + str(ser_p) + '*' + str(d_cal_wast_por) + ')/(' + str(
         air) + '*' + str(por) + ')=' + str(actual_energyE)
@@ -86,6 +92,7 @@ def calculate_it_FC(air_dict):
 
 
 def originEC_to_dataframe(machine1, new_machine):
+    machine1 = complete_data(machine1)
     no_list, type_list, run_list, load_list, ori_list = [], [], [], [], []
     empty_list, d_list, total_list, actual_list, ori_kw_list = [], [], [], [], []
     ori_pre_list, ori_air_list, act_air_list, act_pre_list = [], [], [], []
@@ -140,9 +147,9 @@ def originEC_to_dataframe(machine1, new_machine):
     # print(ee_lists)
     # print(new_machine)
     for i in range(len(ee_lists)):
-        saving = round(float(ee_lists[i]['energy_con']) - float(new_machine[i]['energy_con']), 4)
-        saving_portion = round(saving / float(ee_lists[i]['energy_con']) * 100, 2)
-        saving_per_hour = round(saving * float(act_air_list[i]), 4)
+        saving = round(ee_lists[i]['energy_con'] - new_machine[i]['energy_con'], 4)
+        saving_portion = round(saving / ee_lists[i]['energy_con'] * 100, 2)
+        saving_per_hour = round(saving * act_air_list[i], 4)
         saving_per_year = round(saving_per_hour * year_running_time)
         # print(act_air_list[i],saving_per_hour,saving_per_year)
 
@@ -202,3 +209,5 @@ def final_results_excel(machines, eqs):
     origin_final_table.to_excel(excel_writer, sheet_name="原有设备能耗")
     energy_table.to_excel(excel_writer, sheet_name="能效对比")
     excel_writer.save()
+
+
